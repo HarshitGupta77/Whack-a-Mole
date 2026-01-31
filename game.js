@@ -7,9 +7,12 @@ let highScore = {
     medium: 0,
     hard: 0
 };
+let difficulty = "easy";
 const hit = new Audio("./Correct.mp3")
 const miss = new Audio("./Wrong.mp3")
-let difficulty = "easy";
+let moleImg = document.createElement("img");
+moleImg.src = "./Mole.png";
+let plantImgs = [];
 
 window.onload = function() {
     setTiles();
@@ -89,19 +92,19 @@ function spawnMole() {
         return;
     }
 
-    if (currentMoleTile) {
-        currentMoleTile.innerHTML = "";
+    if (currentMoleTile && currentMoleTile.contains(moleImg)) {
+        currentMoleTile.removeChild(moleImg);
     }
 
-    let mole = document.createElement("img");
-    mole.src = "./Mole.png";
+    // let mole = document.createElement("img");
+    // mole.src = "./Mole.png";
 
     let num = getRandomTile();
     if (plantTiles.some(tile => tile.id === num)) {
         return;
     }
     currentMoleTile = document.getElementById(num);
-    currentMoleTile.appendChild(mole);
+    currentMoleTile.appendChild(moleImg);
 }
 
 function spawnPlant() {
@@ -109,7 +112,12 @@ function spawnPlant() {
         return;
     }
 
-    plantTiles.forEach(tile => tile.innerHTML = "");
+    plantTiles.forEach(tile => {
+        const img = tile.querySelector("img");
+        if (img) {
+            tile.removeChild(img);
+        }
+    });
     plantTiles = [];
 
     let plantCount = 1;
@@ -117,10 +125,13 @@ function spawnPlant() {
         plantCount = 2;
     }
 
-    for (let i = 0; i < plantCount; i++) {
-        let plant = document.createElement("img");
-        plant.src = "./Piranha_plant.png";
+    while (plantImgs.length < plantCount) {
+        let img = document.createElement("img");
+        img.src = "./Piranha_plant.png";
+        plantImgs.push(img);
+    }
 
+    for (let i = 0; i < plantCount; i++) {
         let num = getRandomTile();
         while (
             (currentMoleTile && currentMoleTile.id === num) || 
@@ -130,7 +141,7 @@ function spawnPlant() {
         }
 
         let tile = document.getElementById(num);
-        tile.appendChild(plant);
+        tile.appendChild(plantImgs[i]);
         plantTiles.push(tile);
     }
 }
@@ -151,7 +162,8 @@ function selectTile() {
 
         score += 10;
         document.getElementById("score").innerText = score.toString();
-        currentMoleTile.innerText = "";
+        // currentMoleTile.innerText = "";
+        currentMoleTile.removeChild(moleImg);
         currentMoleTile = null;
 
     } else if (plantTiles.includes(this)) {
@@ -202,11 +214,18 @@ function gameLost() {
 function resetGame() {
     score = 0;
     gameOver = false;
-    if (currentMoleTile) {
-        currentMoleTile.innerHTML = "";
+    if (currentMoleTile && currentMoleTile.contains(moleImg)) {
+        currentMoleTile.removeChild(moleImg);
     }
-    plantTiles.forEach(tile => tile.innerHTML = "");
-    plantTiles = [];
     currentMoleTile = null;
+
+    plantTiles.forEach(tile => {
+        const img = tile.querySelector("img");
+        if (img) {
+            tile.removeChild(img);
+        }
+    });
+    plantTiles = [];
+
     document.getElementById("score").innerText = score.toString();
 }
