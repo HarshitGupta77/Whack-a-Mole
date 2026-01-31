@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width = device-width, initial scale = 1.0">
+        <title> Whack a Mole </title>
+        <link rel = "stylesheet" href = game.css>
+        <script src = "game.js"> </script>
+    </head>
+
+    <body>
+        <div class = "header">
+            <h1 id = "title"> Whack a Mole </h1>
+            <h3 id = "highscore"> High Score: 0 </h3>
+        </div>
+        <h2 id = "score"> 0 </h2>
+        <div id = "board"> </div>
+
+        <div id = "difficulty">
+            <div class = "overlay-box">
+                <h1> Choose Difficulty </h1>
+                <button class = diff-btn data-diff="easy"> Easy </button>
+                <button class = diff-btn data-diff="medium"> Medium </button>
+                <button class = diff-btn data-diff="hard"> Hard </button>
+            </div>
+        </div>
+
+        <div id = "overlay">
+            <div class= "overlay-box">
+                <h1> GAME OVER!! </h1>
+                <h3 id = "finalScore"> Score: 0 </h3>
+                <h3 id = "finalHighScore"> High Score: 0 </h3>
+                <h2 id = "record" style = "display: none;"> !! NEW RECORD !! </h2>
+                <h3 id = "replay"> Click to Play Again! </h3>
+                <button id = "changeDiff" class = "diff-btn"> Change Difficulty</button>
+            </div>
+        </div>
+
+    </body>
+</html>
