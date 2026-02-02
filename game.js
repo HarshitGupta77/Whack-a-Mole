@@ -13,6 +13,12 @@ const miss = new Audio("./Wrong.mp3")
 let moleImg = document.createElement("img");
 moleImg.src = "./Mole.png";
 let plantImgs = [];
+let gameMode = "classic";
+let timeLeft = 15;
+let timeInterval = null;
+const warning = new Audio("./Time_Warning2.mp3");
+warning.preload = "auto";
+let warningPlayed = false;
 
 window.onload = function() {
     setTiles();
@@ -25,6 +31,21 @@ window.onload = function() {
                 document.getElementById("difficulty").style.display = "none";
                 startGame();
             })
+        }
+    })
+
+    // Game Mode Toggle
+    document.getElementById("gameMode").addEventListener("click", () => {
+        if (gameMode === "classic") {
+            gameMode = "timed";
+            timeLeft = 15;
+            document.getElementById("gameMode").innerText = "Mode: Timed";
+            document.getElementById("gameMode").classList.add("selected");
+
+        } else {
+            gameMode = "classic";
+            document.getElementById("gameMode").innerText = "Mode: Classic";
+            document.getElementById("gameMode").classList.remove("selected");
         }
     })
 
@@ -48,6 +69,15 @@ window.onload = function() {
         window.plantTimer = null;
         resetGame();
         document.getElementById("difficulty").style.display = "flex";
+
+        if (gameMode === "timed") {
+            document.getElementById("gameMode").innerText = "Mode: Timed";
+            document.getElementById("gameMode").classList.add("selected");
+
+        } else {
+            document.getElementById("gameMode").innerText = "Mode: Classic";
+            document.getElementById("gameMode").classList.remove("selected");
+        }
     })
 }
 
@@ -85,6 +115,40 @@ function startGame() {
 
     window.moleTimer = setInterval(spawnMole, moleInterval);
     window.plantTimer = setInterval(spawnPlant, plantInterval);
+
+    if (gameMode === "timed") {
+        timeLeft = 15;
+        document.getElementById("timer").style.display = "inline-block";
+        document.getElementById("timer").innerText = "Time: " + timeLeft.toString();
+
+        if (timeInterval) {
+            clearInterval(timeInterval);
+        }
+
+        timeInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById("timer").innerText = "Time: " + timeLeft.toString();
+
+            if (timeLeft <= 5) {
+                document.getElementById("timer").classList.add("time-warning");
+                if (!warningPlayed) {
+                    warning.currentTime = 0;
+                    warning.volume = 0.4;
+                    warning.play();
+                    warningPlayed = true;
+                }
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timeInterval);
+                gameLost();
+            }
+        }, 1000);
+
+    } else {
+        document.getElementById("timer").style.display = "none";
+        document.getElementById("timer").innerText = "Time: 15";
+    }
 }
 
 function spawnMole() {
@@ -95,9 +159,6 @@ function spawnMole() {
     if (currentMoleTile && currentMoleTile.contains(moleImg)) {
         currentMoleTile.removeChild(moleImg);
     }
-
-    // let mole = document.createElement("img");
-    // mole.src = "./Mole.png";
 
     let num = getRandomTile();
     if (plantTiles.some(tile => tile.id === num)) {
@@ -162,7 +223,6 @@ function selectTile() {
 
         score += 10;
         document.getElementById("score").innerText = score.toString();
-        // currentMoleTile.innerText = "";
         currentMoleTile.removeChild(moleImg);
         currentMoleTile = null;
 
@@ -185,6 +245,13 @@ function selectTile() {
 }
 
 function gameLost() {
+    if (timeInterval) {
+        clearInterval(timeInterval);
+        timeInterval = null;
+    }
+    warningPlayed = false;
+    document.getElementById("timer").classList.remove("time-warning");
+
     gameOver = true; 
     document.getElementById("score").innerText = "GAME OVER: " + score.toString();
 
@@ -212,6 +279,14 @@ function gameLost() {
 }
 
 function resetGame() {
+    if (timeInterval) {
+        clearInterval(timeInterval);
+        timeInterval = null;
+    }
+    document.getElementById("timer").style.display = "none";
+    warningPlayed = false;
+    document.getElementById("timer").classList.remove("time-warning");
+
     score = 0;
     gameOver = false;
     if (currentMoleTile && currentMoleTile.contains(moleImg)) {
@@ -229,3 +304,4 @@ function resetGame() {
 
     document.getElementById("score").innerText = score.toString();
 }
+
