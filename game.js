@@ -304,4 +304,3 @@ function resetGame() {
 
     document.getElementById("score").innerText = score.toString();
 }
-
