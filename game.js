@@ -14,7 +14,7 @@ let moleImg = document.createElement("img");
 moleImg.src = "./Mole.png";
 let plantImgs = [];
 let gameMode = "classic";
-let timeLeft = 15;
+let timeLeft = 60;
 let timeInterval = null;
 const warning = new Audio("./Time_Warning2.mp3");
 warning.preload = "auto";
@@ -38,7 +38,7 @@ window.onload = function() {
     document.getElementById("gameMode").addEventListener("click", () => {
         if (gameMode === "classic") {
             gameMode = "timed";
-            timeLeft = 15;
+            timeLeft = 60;
             document.getElementById("gameMode").innerText = "Mode: Timed";
             document.getElementById("gameMode").classList.add("selected");
 
@@ -117,7 +117,7 @@ function startGame() {
     window.plantTimer = setInterval(spawnPlant, plantInterval);
 
     if (gameMode === "timed") {
-        timeLeft = 15;
+        timeLeft = 60;
         document.getElementById("timer").style.display = "inline-block";
         document.getElementById("timer").innerText = "Time: " + timeLeft.toString();
 
@@ -147,7 +147,7 @@ function startGame() {
 
     } else {
         document.getElementById("timer").style.display = "none";
-        document.getElementById("timer").innerText = "Time: 15";
+        document.getElementById("timer").innerText = "Time: 60";
     }
 }
 
