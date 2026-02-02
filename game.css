@@ -6,29 +6,32 @@ body {
 }
 
 #board {
-    width: 540px;
-    height: 540px;
+    width: 90vw;
+    max-width: 540px;
+    height: 90vw;
+    max-height: 540px;
+
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
     
     background: url("./Soil.png");
     background-size: cover;
     border: 3px solid white;
     border-radius: 25px;
-    
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
 }
 
 #board div {
-    width: 180px;
-    height: 180px;
+    width: 33.33%;
+    height: 33.33%;
     background-image: url("./Pipe.png");
     background-size: cover; 
 }
 
 #board div img {
-    width: 100px;
-    height: 100px;
+    width: 55%;
+    max-width: 100px;
+    height: auto;
     pointer-events: none;
 
     user-select: none;
@@ -45,6 +48,7 @@ body {
 }
 
 #title {
+    font-size: clamp(20px, 5vw, 32px);
     text-align: center;
     margin: 0;
 }
@@ -91,6 +95,7 @@ body {
 .overlay-box {
     background: #fff8dc;
     padding: 30px 50px;
+    width: clamp(200px, 40vh, 265px);
     border-radius: 20px;
     text-align: center;
     border: 3px solid black;
@@ -131,7 +136,9 @@ body {
 
 .diff-btn {
     display: block;
-    width: 200px;
+    /* width: 200px; */
+    font-size: clamp(14px, 4vw, 32px);
+    width: 76%;
     margin: 15px auto;
     padding: 12px 0;
     font-size: 18px;
@@ -178,3 +185,36 @@ body {
     100% {background-color: darkred; color: white;}
 }
 
+@media screen and (max-width: 700px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        margin-top: 5px;
+    }
+
+    #title {
+        font-size: clamp(20px, 5vw, 32px);
+    }
+
+    #highscore {
+        position: static !important;
+        transform: none !important;
+        font-size: clamp(14px, 4vh, 32px);
+    }
+
+    #timer {
+        transform: translateY(-215%);
+    }
+
+    .diff-btn {
+        width: 70%;
+        font-size: 16px;
+    }
+
+    #score, #highscore, #timer {
+        font-size: 16px;
+        padding: 4px 8px;
+    }
+}
