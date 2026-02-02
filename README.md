@@ -8,8 +8,8 @@ The game features multiple difficulty levels, a timed mode, sound effects, anima
 ## Features
 
 - **Multiple difficulty levels:** each affecting the spawn speeds and number of plants
-- **Timed Mode:** Race against the clock 
-- **Classic MOde:** Keep playing until you hit a plant or your score drops to negative
+- **Timed Mode:** Race against the clock (60 secs)
+- **Classic Mode:** Keep playing until you hit a plant or your score drops to negative
 - **Visual Effects:** on making a new highscore and when the timer is about to run out in timed mode
 - **Sound Effects:** on correct and wrong hits and also a timer warning
 
