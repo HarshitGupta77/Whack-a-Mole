@@ -249,6 +249,9 @@ function gameLost() {
         clearInterval(timeInterval);
         timeInterval = null;
     }
+    if (timeLeft > 0) {
+        warning.pause();
+    }
     warningPlayed = false;
     document.getElementById("timer").classList.remove("time-warning");
 
